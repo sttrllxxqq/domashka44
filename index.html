@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <div id="registration-form">
+    <h2>Форма реєстрації</h2>
+    <form>
+      <label>Ім'я:</label>
+      <input type="text" id="firstName" required>
+      
+      <label>Прізвище:</label>
+      <input type="text" id="lastName" required>
+      
+      <label>Дата народження:</label>
+      <input type="text" id="dateOfBirth" required>
+      
+      <label>Стать:</label>
+      <label><input type="radio" name="gender" value="Чоловіча" required>Чоловіча</label>
+      <label><input type="radio" name="gender" value="Жіноча" required>Жіноча</label>
+      
+      <label>Місто:</label>
+      <select id="city" required>
+        <option value="">Виберіть місто</option>
+        <option value="Київ">Київ</option>
+        <option value="Львів">Львів</option>
+        <option value="Харків">Харків</option>
+      </select>
+      
+      <label>Адреса:</label>
+      <textarea id="address" required></textarea>
+      
+      <label>Мови, якими володіє:</label>
+      <label><input type="checkbox" name="languages" value="Англійська">Англійська</label>
+      <label><input type="checkbox" name="languages" value="Французька">Французька</label>
+      <label><input type="checkbox" name="languages" value="Німецька">Німецька</label>
+      
+      <button type="submit">Зберегти</button>
+    </form>
+  </div>
+
+  <div id="registration-table" style="display: none;">
+    <h2>Таблиця з даними</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Ім'я</th>
+          <th>Прізвище</th>
+          <th>Дата народження</th>
+          <th>Стать</th>
+          <th>Місто</th>
+          <th>Адреса</th>
+          <th>Мови</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const registrationForm = document.querySelector('#registration-form form');
+    const registrationTable = document.getElementById('registration-table');
+    const tableBody = document.getElementById('table-body');
+
+    registrationForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+      const dateOfBirth = document.getElementById('dateOfBirth').value;
+      const gender = document.querySelector('input[name="gender"]:checked').value;
+      const city = document.getElementById('city').value;
+      const address = document.getElementById('address').value;
+      const languages = Array.from(document.querySelectorAll('input[name="languages"]:checked')).map(input => input.value);
+
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${firstName}</td>
+        <td>${lastName}</td>
+        <td>${dateOfBirth}</td>
+        <td>${gender}</td>
+        <td>${city}</td>
+        <td>${address}</td>
+        <td>${languages.join(', ')}</td>
+      `;
+
+      tableBody.appendChild(row);
+
+      registrationForm.reset();
+      registrationForm.style.display = 'none';
+      registrationTable.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
